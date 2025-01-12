@@ -1,4 +1,4 @@
-name: Sync Files from External Repositories
+#name: Sync Files from External Repositories
 
 on:
 #  /*schedule:
@@ -25,10 +25,20 @@ jobs:
           ref: 'main'  # 如果目标仓库不是主分支，修改为对应分支
           path: repo1  # 拉取到 repo1 目录
 
+      # 删除嵌套仓库的 .git 文件夹，防止嵌套仓库警告
+      - name: Remove nested .git folder
+        run: rm -rf repo1/.git#
+
       # 步骤 3：从第一个仓库复制文件到目标文件夹
       - name: Copy check_sudo.sh to target folder
         run: |
           cp repo1/yidongyunpan.py ./
+
+      - name: Configure Git user for Actions
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@users.noreply.github.com"
+
 
       # 步骤 8：提交并推送更改
       - name: Commit and push changes
