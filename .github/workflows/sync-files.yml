@@ -1,12 +1,12 @@
 name: Sync Files from External Repositories
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  # 每天午夜触发一次
+#  /*schedule:
+#    - cron: '0 0 * * *'  # 每天午夜触发一次
   workflow_dispatch:  # 手动触发
-  push:
-    branches:
-      - master  # 当 master 分支有更新时也触发
+#  push:
+#    branches:
+#      - master  # 当 master 分支有更新时也触发
 
 jobs:
   sync_files:
@@ -21,40 +21,14 @@ jobs:
       - name: Checkout first repository (check_sudo.sh)
         uses: actions/checkout@v2
         with:
-          repository: 'spiritLHLS/one-click-installation-script'  # 拉取第一个仓库
+          repository: 'zjk2017/ArcadiaScriptPublic'  # 拉取第一个仓库
           ref: 'main'  # 如果目标仓库不是主分支，修改为对应分支
           path: repo1  # 拉取到 repo1 目录
 
       # 步骤 3：从第一个仓库复制文件到目标文件夹
       - name: Copy check_sudo.sh to target folder
         run: |
-          cp repo1/repair_scripts/check_sudo.sh ./repair_scripts/
-
-      # 步骤 4：从第二个仓库拉取文件 (README.md)
-      - name: Checkout second repository (README.md)
-        uses: actions/checkout@v2
-        with:
-          repository: 'spiritLHLS/one-click-installation-script'  # 拉取第二个仓库
-          ref: 'main'  # 如果目标仓库不是主分支，修改为对应分支
-          path: repo2  # 拉取到 repo2 目录
-
-      # 步骤 5：从第二个仓库复制文件到目标位置
-      - name: Copy README.md to target folder
-        run: |
-          cp repo2/README.md ./
-
-      # 步骤 6：从第三个仓库拉取文件 (notify.py)
-      - name: Checkout third repository (notify.py)
-        uses: actions/checkout@v2
-        with:
-          repository: 'zjk2017/ArcadiaScriptPublic'  # 拉取第三个仓库
-          ref: 'main'  # 如果目标仓库不是主分支，修改为对应分支
-          path: repo3  # 拉取到 repo3 目录
-
-      # 步骤 7：从第三个仓库复制文件到目标位置
-      - name: Copy notify.py to target folder
-        run: |
-          cp repo3/tianyi/notify.py ./tianyi/
+          cp repo1/yidongyunpan.py ./
 
       # 步骤 8：提交并推送更改
       - name: Commit and push changes
